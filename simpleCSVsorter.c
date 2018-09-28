@@ -180,6 +180,16 @@ int main (int argc, char ** argv) {
 		ptr=ptr->next;
 	}
 
+	ptr = start; 
+	while (ptr!=NULL){
+		prev = ptr;
+		ptr = ptr->next;
+		free(prev);
+	}
+
+	free(line);
+	free(key);
+
 
 
 	return 0;
