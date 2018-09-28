@@ -1,4 +1,5 @@
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,7 +25,7 @@ char * removeWhite (char * key, int length) {
 	}
 
 	for ( i = length-1; i>=0; i--) {
-		if (key[i]!=' '){
+		if (key[i]!=' ' && key[i]!='\0'){
 			key[i+1] = '\0';
 			break;
 		}
