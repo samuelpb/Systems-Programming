@@ -26,7 +26,7 @@
 
 struct dataNode {
 
-	char key [100];
+	char key [200];
 	char data [1024];
 	struct dataNode * next;
 };
