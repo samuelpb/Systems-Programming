@@ -1,4 +1,23 @@
+/*header file for the simpleCSVsorter.c*/
 
+/*INCLUDES:
+
+	Struct dataNode:
+		Holds both the string of all the data for a row
+		As well as the key, which is the string for the specific column to be sorted
+
+	parseInt :
+		takes a string and returns the numerical value of the string
+
+	removeWhite :
+		removes leading and trailing whitespace from a string
+
+	merge:
+		function to merge two linked lists in ascending order
+
+	mergeSort:
+		Uses merge to merge a linked list
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,6 +36,8 @@ char * removeWhite (char * key, int length) {
 
 	int i=0, start=0;
 	char * result = (char *)malloc(sizeof(char)* length);
+
+	/*finds index of fist non space*/
 	for (i=0; key[i]!='\0'; i++) {
 		if (key[i]!=' ') {
 			start = i;
@@ -24,6 +45,7 @@ char * removeWhite (char * key, int length) {
 		}
 	}
 
+	/*ends the string after the last nonspaace*/
 	for ( i = length-1; i>=0; i--) {
 		if (key[i]!=' ' && key[i]!='\0'){
 			key[i+1] = '\0';
@@ -31,6 +53,7 @@ char * removeWhite (char * key, int length) {
 		}
 	}
 
+	/*copies it into the result*/
 	for (i=0; key[start+i]!='\0'; i++) {
 		result[i] = key[i+start];
 	}
