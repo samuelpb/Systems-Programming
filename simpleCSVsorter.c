@@ -1,4 +1,15 @@
-/*FILE THAT TAKES IN A CSV OF DATA, AND THEN SORTS THE DATA ON A GIVEN COLUMN*/
+/*FILE THAT TAKES IN A CSV OF DATA, AND THEN SORTS THE DATA ON A GIVEN COLUMN
+
+	Takes in 3 arguments:
+		1) executable
+		2) -c (means it is sorted by column)
+		3) column name of the column to be sorted upon
+
+	Stores all data in linked lists, and then uses mergeSort to ensure the list is in order by the given
+		column name.
+	Prints out all the data, in order by that column
+
+*/
 
 
 #include "simpleCSVsorter.h"
@@ -16,7 +27,10 @@ int main (int argc, char ** argv) {
 
 	if (argc!=3) return 1;
 
-	if (strcmp(argv[1], "-c") != 0) return 1;
+	if (strcmp(argv[1], "-c") != 0) {
+		fprintf(stderr, "Error. Invalid number of arguments\n");
+		return 1;
+	}
 
 	FILE * fp;
 	fp = stdin;
@@ -66,7 +80,7 @@ int main (int argc, char ** argv) {
 				}
 			}
 			if (i==0) {
-				printf("Error. Not a valid column title.\n");
+				fprintf(stderr, "Error. Not a valid column title.\n");
 				return 1;
 			}
 		}
@@ -77,18 +91,17 @@ int main (int argc, char ** argv) {
 	
 	column = counter;
 
+	/*if a field with a numerical value*/
 	if ( counter == 3 || counter == 4 || counter == 5 || counter == 6 || counter == 8 || counter == 9 || counter == 13 || counter == 14
 		|| counter == 16 || counter == 19 || counter == 23 || counter == 24 || counter == 25 || counter == 26 || counter == 27 || counter == 28) {
 
 		isNum = 1;
 	}
 
-
-	/*reads through each line and puts the key into a node in the linked list, as well as all the data*/
-
 	i=0;
 	a = 'a';
-	
+
+	/*reads through each line and puts the key into a node in the linked list, as well as all the data*/
 	/*new line loop*/
 	while (i==0) {
 
@@ -126,6 +139,7 @@ int main (int argc, char ** argv) {
 				inQuotes = 1;
 			}
 			
+			/*if the right column*/
 			if (counter == column) {
 				key[keySpot]=a;
 				keySpot++;
@@ -137,7 +151,7 @@ int main (int argc, char ** argv) {
 				}
 			}
 
-
+			/*keep track of what counter to be on*/
 			if (a==',' && inQuotes==0) counter ++;
 
 
