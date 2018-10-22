@@ -1,14 +1,107 @@
 PA2:
 
-Generalizes the code from PA1 to sort CSVs within a given directory.
-  Creats the sorted CSV files in the folder given or where the original file was.
+How to use the scannerCSVsorter.c: 
+scannerCSVsorter.c complies with three other files: scannerCSV.h, simple.c, and simple.h.
 
-Takes in:
-  ./executable -c <column to be sorted on>
-    optional: -d <directory to start at>
-    optional: -o <output directory>
-    
-    If -d is not given, the program starts at the current directory.
-    If -c is not given, the program outputs the sorted file where the original file was found.
-    
-    Uses merge sort and forks new process for each file to be sorted or each subdirectory.
+scannerCSVsorter.c:
+This is the driving program for the assignment. This is the one complied by the makefile, and the one that is called to execute the processes.
+	Takes in arguments from the command line: 		./scannerCSVsorter -c <column-name-to-be-sorted-on>
+		Optional: -d <directory-path>
+			Sorts from the given directory. If not given, starts at current directory.
+		Optional: -c <output-directory-path>
+			Creates sorted files in output directory. If not given, creates sorted file at 
+      in the same location as the unsorted file.
+
+	Functions: 		Main: checks to make sure the command line call is correct.
+			Calls navDir from scannerCSVsorter.h
+			Reads from info.txt for the PIDs, stores non-duplicates in an array
+			Removes info.txt at the end.
+			Prints the PIDS of the parents and children
+
+scannerCSVsorter.h:
+This is the header file for scannerCSVsorter.h, and contains two functions:
+	
+	int testCSV:
+		Takes in the filepath, and the key value to be sorted on.
+		Tests to see if the file is valid to be sorted.
+			If the file is not a .csv, does not have a valid csv format, or if the file is
+      already sorted on that key according to its name (i.e. movie_metadata-
+      sorted-duration.csv), then it will return that it is not a valid file
+
+	void navDir: 		Takes in the filepath, the key to be sorted on, the outputdir, an int samePlace,
+  and another filepath for info.
+			samePlace: indicator if the sorted file should be created where the
+      unsorted file was found
+		
+		The function opens the current directory, and goes through each file calling 
+    testCSV. If the file is valid, it forks a new process to do the sorting, calling sort. If
+    there is a subdirectory, a fork is called to repeat the function within that
+    subdirectory. Each fork is followed by a wait to make sure it finishes before the
+    parent continues. Each process writes its PID to a created info.text file that the
+    master process reads at the end to print out the final information.
+
+simple.c:
+This is the file with the main code from PA0, has one function:
+	
+	void sort:
+		Takes in the filepath, the output directory, and the key to be sorted on.
+		Reads the data from the csv file, storing each line in a struct, as well as the
+      value of the key to be sorted on.
+		If the file does not have the key as a column name, it returns with error
+		Calls mergeSort from simple.h
+		Writes the new sorted CSV file using the sorted linked-list
+		Calls createoutputName from simple.h for the output name of the file
+
+simple.h:
+This is the header file for simple.c with helper functions/definitions.
+
+	struct datanode: 
+		the node used in the linked list
+
+	char * createOutputName :
+		Takes in output directory, the key sorted on, and the current filename
+		Appends “-sorted-<key-value>.csv” on the filename
+		Returns the new name
+
+	float parseInt: 		If the value is numerical, this returns the numerical value of the data sent to it
+		If no value, returns a -1 to put at beginning of list
+
+	char * removeWhite: 		Takes in a string key, removes trailing and leading white space 
+		Returns trimmed key
+
+	struct datanode * merge:
+		The merging function for mergesort, driven by merge
+		Recursively calls
+		Takes in pointers to the beginning of each list
+		Also takes in if the string is a numerical value, to call parseInt for comparing
+		Returns merged list in ascending order
+
+	struct datanode * merge
+		Takes in the start of an unsorted linked list
+		Calls merge to merge sort the list
+
+Assumptions: 	No more than 255 processes as stated within the assignment
+
+Difficulties:
+Being able to pass PIDs from children to parents without printing them too early, 
+and without having the master process not tally certain PIDS from subdirectories.
+    Solution: Write the PIDS to a .txt file, then read from that when all child processes
+    are finished. Ignoring duplicates, this allows the data to be printed out neatly at the end.
+Reading/Outputting to correct directories
+    Solution: Constantly have to carry the directory path and output directory path.
+    If the output directory is the same location, we then have to append onto its path
+    whatever subdirectory the process fork is in.
+
+
+Test Cases:
+	With a directory named test, we have included multiple subdirectories to ensure the program
+  correctly forks for those. We also included invalid csv files that have a .csv extension to
+  ensure the program correctly flags them as invalid, as well as files that do not have a .csv
+  extension to ensure the program flags them to not be sorted as well.
+  
+	Within the subdirectories are files that both contain and do not contain the column to be sorted
+  on. If it does not, then the process ends without reading a sorted file. If it does contain that
+  column, we want to ensure the sorted file is named correctly and added to the right directory.
+  
+	With these test cases, we called the program using only the -d flag, only the -o flag, neither,
+  and both to make sure files were sorted and created in the correct places.
