@@ -5,10 +5,11 @@ scannerCSVsorter.c complies with three other files: scannerCSV.h, simple.c, and 
 
 scannerCSVsorter.c:
 This is the driving program for the assignment. This is the one complied by the makefile, and the one that is called to execute the processes.
-	Takes in arguments from the command line: 		./scannerCSVsorter -c <column-name-to-be-sorted-on>
+	Takes in arguments from the command line: 	
+	./scannerCSVsorter -c <column-name-to-be-sorted-on>
 		Optional: -d <directory-path>
 			Sorts from the given directory. If not given, starts at current directory.
-		Optional: -c <output-directory-path>
+		Optional: -o <output-directory-path>
 			Creates sorted files in output directory. If not given, creates sorted file at 
       in the same location as the unsorted file.
 
