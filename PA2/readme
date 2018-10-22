@@ -1,0 +1,14 @@
+PA2:
+
+Generalizes the code from PA1 to sort CSVs within a given directory.
+  Creats the sorted CSV files in the folder given or where the original file was.
+
+Takes in:
+  ./executable -c <column to be sorted on>
+    optional: -d <directory to start at>
+    optional: -o <output directory>
+    
+    If -d is not given, the program starts at the current directory.
+    If -c is not given, the program outputs the sorted file where the original file was found.
+    
+    Uses merge sort and forks new process for each file to be sorted or each subdirectory.
