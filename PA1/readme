@@ -1,0 +1,5 @@
+PA1: 
+
+Takes in parameters: ./executable -c <column name to be sorted on>
+    Reads from standard in, so helpful to bash in a csv file
+    Prints the resulting CSV file to Standard output
