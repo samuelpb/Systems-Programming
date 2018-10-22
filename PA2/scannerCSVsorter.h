@@ -7,6 +7,9 @@
 #include <ctype.h>
 #include <unistd.h>
 #include "simple.c"
+#include <sys/types.h>
+#include <sys/wait.h>
+
 
 
 
