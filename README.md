@@ -1,6 +1,6 @@
 # Systems-Programming
 
-These are my codes from Systems Programming at Rutgers University.
+These are my codes from Systems Programming at Rutgers University, all done in C.
 
 PA1: Using mergeSort to sort a CSV file with information about movies.
     Takes in first parameter "-c" to show that the CSV files are sorted by column
